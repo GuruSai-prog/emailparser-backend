@@ -1,7 +1,7 @@
 // Environment configuration
 const config = {
   // API Base URL - change this for different environments
-  API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 'http://emailparser-env.eba-3evbrxvz.us-east-1.elasticbeanstalk.com',
+  API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 'https://emailparser-backend-f7li.onrender.com',
   
   // Timeout settings
   API_TIMEOUT: 10000,

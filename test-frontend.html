@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Receipt Processor - Backend Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .endpoint {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .endpoint h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Email Receipt Processor - Backend Integration Test</h1>
+        <p>Testing backend at: <strong>https://emailparser-backend-f7li.onrender.com</strong></p>
+        
+        <div class="endpoint">
+            <h3>1. Base API Test</h3>
+            <button onclick="testBaseAPI()">Test Base API</button>
+            <div id="baseResult" class="result"></div>
+        </div>
+        
+        <div class="endpoint">
+            <h3>2. Ledger API Test</h3>
+            <button onclick="testLedgerAPI()">Test Ledger API</button>
+            <div id="ledgerResult" class="result"></div>
+        </div>
+        
+        <div class="endpoint">
+            <h3>3. Email API Test</h3>
+            <button onclick="testEmailAPI()">Test Email API</button>
+            <div id="emailResult" class="result"></div>
+        </div>
+        
+        <div class="endpoint">
+            <h3>4. Reconciliation API Test</h3>
+            <button onclick="testReconciliationAPI()">Test Reconciliation API</button>
+            <div id="reconciliationResult" class="result"></div>
+        </div>
+        
+        <div class="endpoint">
+            <h3>5. Add Test Ledger Entry</h3>
+            <button onclick="addTestEntry()">Add Test Entry</button>
+            <div id="addResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://emailparser-backend-f7li.onrender.com';
+        
+        async function testBaseAPI() {
+            const resultDiv = document.getElementById('baseResult');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch(API_BASE_URL);
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testLedgerAPI() {
+            const resultDiv = document.getElementById('ledgerResult');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/ledger`);
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testEmailAPI() {
+            const resultDiv = document.getElementById('emailResult');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/email`);
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testReconciliationAPI() {
+            const resultDiv = document.getElementById('reconciliationResult');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/reconciliation`);
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function addTestEntry() {
+            const resultDiv = document.getElementById('addResult');
+            resultDiv.textContent = 'Adding test entry...';
+            resultDiv.className = 'result';
+            
+            try {
+                const testData = {
+                    email_id: 'test-email-123',
+                    email_subject: 'Test Receipt from Amazon',
+                    email_date: '2024-01-15',
+                    merchant_name: 'Amazon',
+                    amount: 29.99,
+                    date: '2024-01-15',
+                    category: 'Shopping',
+                    description: 'Test purchase from Amazon',
+                    receipt_text: 'Thank you for your purchase of $29.99'
+                };
+                
+                const response = await fetch(`${API_BASE_URL}/api/ledger`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html> 
