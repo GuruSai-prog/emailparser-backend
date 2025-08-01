@@ -68,7 +68,7 @@ Thumbs.db
 data/
 
 # Build files
-client/build/
+client/
 dist/
 
 # Temporary files
@@ -86,3 +86,16 @@ temp/
 
 # Netlify
 .netlify
+
+# Frontend files (for backend-only deployment)
+client/
+client/build/
+client/src/
+client/public/
+client/package.json
+client/package-lock.json
+client/README.md
+client/TROUBLESHOOTING.md
+client/backend-cors-setup.js
+client/postcss.config.js
+client/tailwind.config.js
