@@ -38,12 +38,16 @@ app.use('/api/ledger', ledgerRoutes);
 app.use('/api/email', emailRoutes);
 app.use('/api/reconciliation', reconciliationRoutes);
 
-// Serve static files from React build
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-// Catch-all handler for React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// API-only server - no frontend serving
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Email Receipt Processor API',
+    endpoints: {
+      ledger: '/api/ledger',
+      email: '/api/email',
+      reconciliation: '/api/reconciliation'
+    }
+  });
 });
 
 // Error handling middleware
